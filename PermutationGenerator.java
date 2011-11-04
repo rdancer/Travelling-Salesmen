@@ -1,3 +1,15 @@
+/* PermutationGenerator.java -- Permutation Generator by Michael Gilleland */
+
+/*
+ * Copyright Michael Gilleland
+ *
+ * License for this file: "The source code is free for you to use in whatever
+ *                         way you wish."
+ *
+ * Copied from http://www.merriampark.com/perm.htm on 2011-11-03
+ * by Jan Minar <rdancer@rdancer.org>
+ */
+
 //--------------------------------------
 // Systematically generate permutations. 
 //--------------------------------------
