@@ -1,4 +1,3 @@
-
 /**
  * Abstract class Solver implementation.
  * 
@@ -9,7 +8,11 @@
 public abstract class Solver
         extends Thread
 {
+    protected World world;
     protected Tour bestTour;
-    public Tour getBestTour() { return bestTour; }
+    protected Dispatcher dispatcher;
     
+    public Tour getBestTour() { return bestTour; }
+    public void setDispatcher(Dispatcher dispatcher) { this.dispatcher = dispatcher; }
+    public Dispatcher getDispatcher() { return dispatcher; }    
 }

@@ -5,8 +5,9 @@
  *
  * @author Jan Minar <rdancer@rdancer.org>
  * 
- * This class solves the problem trivially by simply listing all the cities, in arbitrary order.
- * It does not even consider the tour length, lest optimize it.
+ * This class solves the problem trivially by simply listing all the cities, in
+ * arbitrary order.  It does not even consider the tour length, lest optimize
+ * it.
  */
 
 import java.util.*;
@@ -20,7 +21,7 @@ public class NullSolver
         bestTour.setPath(new ArrayList(world.cities()));
     }
     
-    public void run(World world)
+    public void run()
     {
         // Do nothing
     }
