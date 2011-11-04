@@ -12,6 +12,7 @@ public class RandomShuffleSolver
         extends Solver
 {
     private List<Integer> randomPath;
+    private int bestCost;
 
     public RandomShuffleSolver(World world)
     {
@@ -21,13 +22,26 @@ public class RandomShuffleSolver
         bestTour.setPath(new ArrayList(randomPath));
     }
     
+    private void notifyDispatcherTheInitialRandomTourIsOurInitialBest()
+    {
+    dispatcher.solutionFound(this, world, bestTour);
+    }
+
     public void run()
     {
+        notifyDispatcherTheInitialRandomTourIsOurInitialBest();
+        
+        Tour tryTour = new Tour(world);
+
         while(true)
         {
-            dispatcher.solutionFound(this, world, bestTour);
             Collections.shuffle(randomPath);
-            bestTour.setPath(randomPath);
+            tryTour.setPath(randomPath);
+            if (tryTour.travelCost() < bestCost)
+            {
+                bestTour = tryTour;
+                dispatcher.solutionFound(this, world, bestTour);
+            }
         }
     }
 }
