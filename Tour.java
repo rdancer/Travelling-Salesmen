@@ -15,17 +15,37 @@ public class Tour
     
     
     private List<Integer> path;
+
+    public static boolean isValidPath(World world, List<Integer> path)
+    {
+        boolean isValidPath = true;
+        
+        Tour testTour = new Tour(world);
+        
+        try {
+            testTour.setPath(path);
+        } catch (Exception e) {
+            isValidPath = false;
+        }
+        
+        return isValidPath;
+    }
     
     public List<Integer> getPath() { return path; }
     
     public void setPath(List<Integer> path)
     {
+        /* Sanity checks */
+        if ((new HashSet<Integer>(path)).size() != path.size())
+                throw new RuntimeException("Tour visits at least one city more than once");
         assert(path.size() == world.cityCount());
         for (Integer cityIndex : path)
         {
             assert(cityIndex >= 1);
             assert(cityIndex <= world.cityCount());
         }
+        /* End of sanity checks */
+        
         this.path = path;
     }
 

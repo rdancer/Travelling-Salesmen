@@ -10,6 +10,10 @@ import java.util.*;
 public class GeneticSolver
         extends Solver
 {
+    private List<Integer> motherGeneMajorGlobal;
+    private List<Integer> fatherGeneMajorGlobal;
+        
+        
     SortedSet<Tour> population;
     List<Tour> toursForBreeding;
     
@@ -47,12 +51,13 @@ public class GeneticSolver
             toSwap[j] = new ArrayList<Integer>();
             for (Integer city : parentGenes[j])
             {
-                if (parentGenes[(j + 1) % 2].contains(city))
+                if (!parentGenes[(j + 1) % 2].contains(city))
                 {
                     toSwap[j].add(city);
                 }
             }
         }
+      
         assert(toSwap[0].size() == toSwap[1].size());
         for (int i = 0; i < toSwap[0].size(); i++)
         {
@@ -61,16 +66,31 @@ public class GeneticSolver
                 Integer oldCity = toSwap[j].get(i);
                 Integer newCity = toSwap[(j + 1) % 2].get(i);
                 
-                /*  XXX indexOf() may not work; change to use equals() in that case */
-                parentGenes[j].set(parentGenes[j].indexOf(oldCity), newCity);
+                /*  Note: parentGenes[j].indexOf(oldCity) DNW */
+                for (int k = 0; k < parentGenes[j].size(); k++)
+                {
+                    if (parentGenes[j].get(k).equals(oldCity))
+                    {
+                        System.out.println("Old city index: " + k);
+                        int oldCityIndex = k;
+                        parentGenes[j].set(oldCityIndex, newCity);
+                        break;
+                    }
+                }
             }
         }
         
+        for (Integer city : parentGenes[0]) // motherGeneRest
+                assert(!fatherGeneMajorGlobal.contains(city));
+        for (Integer city : parentGenes[1]) // fatherGeneRest
+                assert(!motherGeneMajorGlobal.contains(city));
         return parentGenes;
     }
     
     private List<Integer> mutate(List<Integer> gene)
     {
+        assert((new HashSet<Integer>(gene)).size() == gene.size());
+
         int geneLength = gene.size();
         int numberOfMutations = (int)(mutationRate * geneLength);
         
@@ -89,17 +109,23 @@ public class GeneticSolver
         }
         
         assert(gene.size() == geneLength);
+        assert((new HashSet<Integer>(gene)).size() == gene.size());
         return gene;
     }
             
     private List<Integer>[] crossOver(List<Integer>[] parents)
     {
         assert(parents.length == 2);
-        assert(parents[0].size() == parents[1].size());
+        assert(Tour.isValidPath(world, parents[0]));
+        assert(Tour.isValidPath(world, parents[1]));
+        assert(parents[0].size() == parents[1].size());                
+
         int geneLength = parents[0].size();
         int spliceIndex = (int)(geneLength * crossoverRate);
+        assert(spliceIndex >= 0);
+        assert(spliceIndex <= geneLength);
+
         List<Integer>[] children = new List[2];
-        
         List<Integer>[][] portions = new List[2][2];
         
         List<Integer> motherGeneMajor = parents[0].subList(0, spliceIndex);
@@ -107,11 +133,21 @@ public class GeneticSolver
         List<Integer> fatherGeneMajor = parents[1].subList(0, spliceIndex);
         List<Integer> fatherGeneRest = parents[1].subList(spliceIndex, geneLength);
         
+        
+        // Debug
+        motherGeneMajorGlobal = motherGeneMajor;
+        fatherGeneMajorGlobal = fatherGeneMajor;
+        
+        
+        
         List<Integer>[] compatibleGenes = fixGenes(new List[]
                         {motherGeneRest, fatherGeneRest});
         motherGeneRest = compatibleGenes[0];
         fatherGeneRest = compatibleGenes[1];
 
+        for (Integer city : motherGeneRest) assert(!fatherGeneMajor.contains(city));
+        for (Integer city : fatherGeneRest) assert(!motherGeneMajor.contains(city));
+        
         children[0] = new ArrayList<Integer>();
         children[0].addAll(motherGeneMajor);
         children[0].addAll(fatherGeneRest);
@@ -122,6 +158,8 @@ public class GeneticSolver
         
         assert(children[0].size() == geneLength);
         assert(children[1].size() == geneLength);
+        assert(Tour.isValidPath(world, children[0]));
+        assert(Tour.isValidPath(world, children[1]));
         
         return children;
     }
@@ -205,6 +243,7 @@ public class GeneticSolver
                 List<Integer>[] children = crossOver(parents);
                 for (List<Integer> child : children)
                 {
+                    assert(Tour.isValidPath(world, child));
                     Tour tour = new Tour(world);
                     tour.setPath(mutate(child));
                     nextGeneration.add(tour);
