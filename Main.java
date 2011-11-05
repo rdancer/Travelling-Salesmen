@@ -52,7 +52,7 @@ public class Main
         World world = new World(new File(fileName));
         GeneticSolver solver = new GeneticSolver(world);
         solver.setDispatcher(this);
-        solver.run();
+        solver.start();
     }
 
     public static void main(String[] args)
