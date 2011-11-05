@@ -23,8 +23,9 @@ public class Main
     public Main(String fileName)
             throws Exception    
     {
-        solveWithBruteForce(fileName);
-        solveWithRandomShuffle(fileName);
+        //solveWithBruteForce(fileName);
+        //solveWithRandomShuffle(fileName);
+        solveWithGenetic(fileName);        
     }
     
     public void solveWithBruteForce(String fileName)
@@ -45,6 +46,15 @@ public class Main
         solver.start();
     }
     
+    public void solveWithGenetic(String fileName)
+            throws Exception    
+    {
+        World world = new World(new File(fileName));
+        GeneticSolver solver = new GeneticSolver(world);
+        solver.setDispatcher(this);
+        solver.run();
+    }
+
     public static void main(String[] args)
             throws Exception
     {

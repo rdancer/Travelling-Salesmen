@@ -9,6 +9,7 @@
 import java.util.*;
 
 public class Tour
+        implements Comparable<Tour>
 {
     private World world;
     
@@ -65,4 +66,22 @@ public class Tour
         return s;
     }
 
+    /**
+     * Note: two Tours are equal iff their cost is equal.  This may not be what you'd expect!
+     */
+    public boolean equals(Object other)
+    {
+        if (!this.getClass().equals(other.getClass()))
+                return false;
+        else
+                return compareTo((Tour)other) == 0;
+    }
+    
+    /**
+     * Note: better tour < worse tour.
+     */
+    public int compareTo(Tour other)
+    {
+        return this.travelCost() - other.travelCost();
+    }
 }
