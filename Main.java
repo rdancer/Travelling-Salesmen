@@ -82,6 +82,9 @@ public class Main
     
     public void solutionFound(Solver caller, World world, Tour solution)
     {
+        if (!Tour.isValidPath(world, solution.getPath()))
+            throw new Error("Invalid tour: " + solution);
+            
         System.out.println(solution);
 
         // Handle erroneous conditions

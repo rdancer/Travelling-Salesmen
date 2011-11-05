@@ -39,23 +39,43 @@ public class GeneticSolver
         Collections.shuffle(path);
         return path;
     }
-    
-    private List<Integer>[] fixGenes(List<Integer>[] parentGenes)
+
+    /**
+     * Poor man's clone.  XXX: List<Integer> should really be encapsulated as class Path,
+     * then cloning would be easier to implement.
+     */
+    protected List<Integer>[] deepCopy(List<Integer>[] array)
     {
+        for (int i = 1; i < array.length; i++) assert(array[i].size() == array[0].size());
+        List<Integer>[] deepCopy = new List[array.length];
+       
+        for (int i = 0; i < array.length; i++)
+        {
+            deepCopy[i] = new ArrayList<Integer>();
+            for (Integer innerElement : array[i])
+            {
+                deepCopy[i].add(innerElement);
+            }
+        }
+        
+        assert(deepCopy.length == array.length);
+        for (int i = 1; i < deepCopy.length; i++) assert(deepCopy[i].size() == deepCopy[0].size());
+        return deepCopy;
+    }
+    
+    protected List<Integer>[] fixGenes(List<Integer>[] parentGenes)
+    {
+        parentGenes = deepCopy(parentGenes);
         assert(parentGenes[0].size() == parentGenes[1].size());
-        int parentGeneLength = parentGenes[0].size();
         List<Integer>[] toSwap = new ArrayList[2];
         
         for (int j = 0; j < 2; j++)
         {
+            assert(j == 0 && ((j + 1) % 2) == 1 || j == 1 && ((j + 1) % 2) == 0);
             toSwap[j] = new ArrayList<Integer>();
             for (Integer city : parentGenes[j])
-            {
-                if (!parentGenes[(j + 1) % 2].contains(city))
-                {
-                    toSwap[j].add(city);
-                }
-            }
+                    if (!parentGenes[(j + 1) % 2].contains(city))
+                            toSwap[j].add(city);
         }
       
         assert(toSwap[0].size() == toSwap[1].size());
@@ -66,12 +86,11 @@ public class GeneticSolver
                 Integer oldCity = toSwap[j].get(i);
                 Integer newCity = toSwap[(j + 1) % 2].get(i);
                 
-                /*  Note: parentGenes[j].indexOf(oldCity) DNW */
+                /*  XXX: make the code terser: use parentGenes[j].indexOf(oldCity) */
                 for (int k = 0; k < parentGenes[j].size(); k++)
                 {
                     if (parentGenes[j].get(k).equals(oldCity))
                     {
-                        System.out.println("Old city index: " + k);
                         int oldCityIndex = k;
                         parentGenes[j].set(oldCityIndex, newCity);
                         break;
@@ -79,11 +98,13 @@ public class GeneticSolver
                 }
             }
         }
-        
+
+        /*
         for (Integer city : parentGenes[0]) // motherGeneRest
                 assert(!fatherGeneMajorGlobal.contains(city));
         for (Integer city : parentGenes[1]) // fatherGeneRest
                 assert(!motherGeneMajorGlobal.contains(city));
+         */
         return parentGenes;
     }
     
@@ -93,6 +114,7 @@ public class GeneticSolver
 
         int geneLength = gene.size();
         int numberOfMutations = (int)(mutationRate * geneLength);
+        if (numberOfMutations < 1) numberOfMutations = 1;
         
         for (int i = 0; i < numberOfMutations; i++)
         {
@@ -175,11 +197,7 @@ public class GeneticSolver
         
         for (int i = 0; i < populationSize; i++)
         {
-            Tour tour = new Tour(world);
-            List<Integer> path = new ArrayList<Integer>(world.cities());
-            
-            Collections.shuffle(path);
-            tour.setPath(path);
+            Tour tour = new Tour(world, randomPath());
             population.add(tour);
         }
     }

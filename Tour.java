@@ -16,6 +16,7 @@ public class Tour
     
     private List<Integer> path;
 
+    /** @return true iff path is valid, false otherwise */
     public static boolean isValidPath(World world, List<Integer> path)
     {
         boolean isValidPath = true;
@@ -54,6 +55,12 @@ public class Tour
     public Tour(World world)
     {
         this.world = world;
+    }
+    
+    public Tour(World world, List<Integer> path)
+    {
+        this(world);
+        setPath(path);
     }
     
     public int travelCost()
