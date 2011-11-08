@@ -20,7 +20,7 @@ public class GeneticSolver
     /* Algorithm Parametres */
     private int populationSize = 50;
     private double crossoverRate = 0.95;
-    private double mutationRate = 0.1;
+    private double mutationRate = 0.01;
 
     
     public GeneticSolver(World world)
