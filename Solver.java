@@ -12,7 +12,10 @@ public abstract class Solver
     protected Tour bestTour;
     protected Dispatcher dispatcher;
     
-    public Tour getBestTour() { return bestTour; }
+    public Tour getBestTour() {
+        if (bestTour != null) return bestTour;
+        else throw new RuntimeException("No tour has been found yet");
+    }
     public void setDispatcher(Dispatcher dispatcher) { this.dispatcher = dispatcher; }
     public Dispatcher getDispatcher() { return dispatcher; }    
 }

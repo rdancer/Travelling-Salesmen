@@ -25,7 +25,8 @@ public class Main
     {
         //solveWithBruteForce(fileName);
         //solveWithRandomShuffle(fileName);
-        solveWithGenetic(fileName);        
+        //solveWithGenetic(fileName);        
+        solveWithGreedyBestFirst(fileName);        
     }
     
     public void solveWithBruteForce(String fileName)
@@ -51,6 +52,15 @@ public class Main
     {
         World world = new World(new File(fileName));
         GeneticSolver solver = new GeneticSolver(world);
+        solver.setDispatcher(this);
+        solver.start();
+    }
+
+    public void solveWithGreedyBestFirst(String fileName)
+            throws Exception    
+    {
+        World world = new World(new File(fileName));
+        GreedyBestFirstSolver solver = new GreedyBestFirstSolver(world);
         solver.setDispatcher(this);
         solver.start();
     }
