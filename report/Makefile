@@ -17,7 +17,7 @@
 
 LATEX = latex
 BIBTEX = bibtex
-BASE = computer-systems-databases-michaelmas-2010-summative
+BASE = software-applications-ai-search-michaelmas-2011-summative
 TEX_FILE = $(BASE).tex
 PDF_FILE = $(BASE).pdf
 BIBTEX_DATA = references.bib
