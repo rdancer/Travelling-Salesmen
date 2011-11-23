@@ -1,0 +1,32 @@
+schemaspy
+*.aux
+*.bbl
+*.blg
+*.log
+computer-systems-databases-michaelmas-2010-summative.pdf
+
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	new file:   "Pgvkw79_Pets.sql"
+#	deleted:    "Pgvkw79_world_leisure.sql"
+#	modified:   "computer-systems-databases-michaelmas-2010-summative.tex"
+#	renamed:    "erd.png" -> "erd-old.png"
+#	typechange: "erd.png"
+#	new file:   "schemaspy/diagrams/summary/relationships.real.large.png"
+#
+# Changed but not updated:
+#   (use "git add/rm <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	deleted:    "introduction-to-programming-michaelmas-2010-summative.tex"
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	".gitignore"
+#	"data.sql"
+#	"names"
+#	"names.sql"
+#	../../../../Networks/
