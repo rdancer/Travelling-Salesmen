@@ -51,10 +51,6 @@
 \author{Jan Minář {\tt <rdancer@rdancer.org>}}
 %\date{December 1, 2010}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% ``Title''
-%	-- the assignment
-
 % No LaTeX command to make a subtitle, but possible using custom code (not
 % including due to absence of license, but it is possible):
 % <http://groups.google.com/group/comp.text.tex/msg/3aa4f67d8b3a979b?hl=en-EN&pli=1>
@@ -99,7 +95,8 @@ In this report,\footnote{This is a summative assignment in the Software Applicat
 % Have the references on a new page
 \pagebreak
 
-\nocite{Russell2003}
+\nocite{*}  % Include all references present in the bibliography database, even
+	    % those not explicitly cited
 
 \bibliography{references}
 \thispagestyle{fancy}

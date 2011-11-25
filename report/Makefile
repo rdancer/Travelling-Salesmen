@@ -28,7 +28,7 @@ BIBTEX_DATA = references.bib
 VIEWER = xpdf
 
 # untex(1) is not really precise.  The word count is give or take few words.
-WORD_COUNT = 42 #$(shell untex -eo - < $(TEX_FILE) | wc -w)
+WORD_COUNT = $(shell untex -eo - < $(TEX_FILE) | wc -w)
 WORD_COUNT_TARGET = 1800 # 450 words per question * 4 questions
 
 # Just make all by default, and display the result
@@ -37,7 +37,7 @@ default: all
 
 # Make everything
 .PHONY: all
-all: $(PDF_FILE) wordcount
+all: $(PDF_FILE)
 
 # Make the PDF file
 .PHONY: dvi
@@ -73,8 +73,8 @@ view: all
 hardcopy: $(DVI_FILE)
 	a2ps -1 $(DVI_FILE)
 
+# DNW
 # Print number of words written and how much needs yet to be written
 .PHONY: wordcount
 wordcount: $(TEX_FILE)
-	#printf 'Word count: %d/%d (%d%%)' $(WORD_COUNT) $(WORD_COUNT_TARGET) $$(( $(WORD_COUNT) * 100 / $(WORD_COUNT_TARGET) ))
-	echo 42
+	printf 'Word count: %d/%d (%d%%)' $(WORD_COUNT) $(WORD_COUNT_TARGET) $$(( $(WORD_COUNT) * 100 / $(WORD_COUNT_TARGET) ))
