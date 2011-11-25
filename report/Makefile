@@ -57,6 +57,7 @@ clean:
 	rm -f -- $(BASE).log
 	rm -f -- $(BASE).bbl
 	rm -f -- $(BASE).blg
+	rm -f -- $(BASE).ps
 
 # Remove even the useful files
 .PHONY: mrproper
